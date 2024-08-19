@@ -21,11 +21,7 @@ class StudentsController < ApplicationController
   end
 
   def index
-    if params[:query].present?
-      @students = Student.where("name LIKE ?", "%#{params[:query]}%")
-    else
-      @students = Student.all
-    end
+    @students = Student.search(params[:query])
   end
 
   def student_params
