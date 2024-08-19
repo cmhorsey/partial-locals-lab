@@ -1,19 +1,19 @@
 class StudentsController < ApplicationController
   def new
-    @student = Student.new
+    student = Student.new
   end
 
   def create
-    @student = Student.new(student_params)
-    if @student.save
-      redirect_to @student
+    student = Student.new(student_params)
+    if student.save
+      redirect_to student
     else
       render 'new'
     end
   end
 
   def edit
-    @student = Student.find(params[:id])
+    student = Student.find(params[:id])
   end
 
   def show
@@ -21,8 +21,11 @@ class StudentsController < ApplicationController
   end
 
   def index
-    @students = Student.all
-    # @student = Student.find(params[:id])
+    if params[:query].present?
+      @students = Student.where("name LIKE ?", "%#{params[:query]}%")
+    else
+      @students = Student.all
+    end
   end
 
   def student_params
